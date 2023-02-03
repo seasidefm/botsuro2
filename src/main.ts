@@ -56,18 +56,6 @@ async function main() {
 
 			try {
 				if (!message.startsWith("?")) {
-					logger.log(
-						`${emoji.bot} ${channel} - ${tags["display-name"]}: ${message}`
-					);
-
-					// Special handlers
-
-					// if (message.toLowerCase().includes("seasidefm") && tags["display-name"]?.includes("etienneca")) {
-					if (message.toLowerCase().includes("seasidefm")) {
-						logger.log(`${emoji.rocket} ${channel} - ${tags["display-name"]} is looking for attention! Deleting message...`);
-						await client.deletemessage(channel, tags.id!);
-					}
-
 					return;
 				}
 
