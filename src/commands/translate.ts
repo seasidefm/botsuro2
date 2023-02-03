@@ -3,7 +3,7 @@ import { getLogger } from "../logger";
 
 export const translateHelpMessage = `
 Translation Commands:
-?ja - to Japanese |
+?jp - to Japanese |
 ?pt - to Portuguese |
 ?fr - to French | 
 ?en - to English |
@@ -13,7 +13,7 @@ Translation Commands:
 `;
 
 const translatePrefixes = [
-	"?ja",
+	"?jp",
 	"?pt",
 	"?fr",
 	"?en",
@@ -64,7 +64,11 @@ export const translateTextCommand = async (client: Client, args: CommandArgs) =>
 	if (self) return;
 
 	try {
-		const prefix = getTranslationPrefix(args.message);
+		let prefix = getTranslationPrefix(args.message);
+
+		// Overrides
+		if (prefix === "?jp") prefix = "?ja";
+
 		const message = getMessageWithoutPrefix(args.message);
 
 		logger.log(`Translating: ${message} to ${prefix}`);
