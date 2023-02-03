@@ -13,11 +13,9 @@ export const matchHelpCommand = (message: string) => {
 	return message.toLowerCase().startsWith("?help");
 };
 
-export const helpCommand = (client: Client, args: CommandArgs) => {
-	const { channel, self, message } = args;
+export const helpCommand = async (client: Client, args: CommandArgs) => {
+	const { channel, self } = args;
 	if (self) return;
 
-	if (matchHelpCommand(args.message)) {
-		client.say(channel, helpMessage);
-	}
+	await client.say(channel, helpMessage);
 };

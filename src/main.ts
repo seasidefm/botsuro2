@@ -80,7 +80,7 @@ async function main() {
 							`${channel} - ?help called by ${tags["display-name"]}`
 						);
 
-						commands.helpCommand(client, { channel, tags, message, self });
+						await commands.helpCommand(client, { channel, tags, message, self });
 						break;
 					case commands.Commands.Uptime:
 						logger.log(
@@ -95,6 +95,23 @@ async function main() {
 						);
 
 						await commands.pingPongCommand(client, { channel, tags, message, self });
+
+						break;
+
+					case commands.Commands.TranslationHelp:
+						logger.log(
+							`${channel} - ?translate called by ${tags["display-name"]}`
+						);
+
+						await commands.translationHelpCommand(client, { channel, tags, message, self });
+						break;
+					case commands.Commands.TranslateText:
+						logger.log(
+							`${channel} - translation command called by ${tags["display-name"]}`
+						);
+
+						await commands.translateTextCommand(client, { channel, tags, message, self });
+						break;
 				}
 			}catch (error) {
 				logger.error(`${emoji.error} ${error}`);
