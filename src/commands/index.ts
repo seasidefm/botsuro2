@@ -4,6 +4,7 @@ export * from "./help";
 export * from "./uptime";
 export * from "./pingPong";
 export * from "./translate";
+export * from "./subAndBits";
 
 // get the word up to the first space
 export const startsWith = (message: string) => {
@@ -12,8 +13,14 @@ export const startsWith = (message: string) => {
 
 export enum Commands {
 	Help = "?help",
-	Uptime = "?uptime",
+
+	SubThanks = "?sub",
+	BitThanks = "?bits",
+
+	// Temp
 	Ping = "?ping",
+
+	// Translation
 	TranslationHelp = "?translate",
 	TranslateText = "translation",
 }
@@ -26,8 +33,10 @@ export const commandMatcher = (message: string) => {
 	switch (startsWith(message)) {
 		case Commands.Help:
 			return Commands.Help;
-		case Commands.Uptime:
-			return Commands.Uptime;
+		case Commands.SubThanks:
+			return Commands.SubThanks;
+		case Commands.BitThanks:
+			return Commands.BitThanks;
 		case Commands.Ping:
 			return Commands.Ping;
 		case Commands.TranslationHelp:

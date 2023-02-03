@@ -70,13 +70,23 @@ async function main() {
 
 						await commands.helpCommand(client, { channel, tags, message, self });
 						break;
-					case commands.Commands.Uptime:
+
+					case commands.Commands.SubThanks:
 						logger.log(
-							`${channel} - ?uptime called by ${tags["display-name"]}`
+							`${channel} - sub thanks called by ${tags["display-name"]}`
 						);
 
-						await commands.uptimeCommand(client, { channel, tags, message, self });
+						await commands.subCommand(client, { channel, tags, message, self });
 						break;
+
+					case commands.Commands.BitThanks:
+						logger.log(
+							`${channel} - bit thanks called by ${tags["display-name"]}`
+						);
+
+						await commands.bitsCommand(client, { channel, tags, message, self });
+						break;
+
 					case commands.Commands.Ping:
 						logger.log(
 							`${channel} - ?ping called by ${tags["display-name"]}`
