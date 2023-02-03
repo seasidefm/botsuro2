@@ -1,6 +1,11 @@
 import { Client, CommandArgs } from "./shared";
 import { SeasideEmotes } from "../emotes/seaside";
 
+const getLastArgumentFromMessage = (message: string) => {
+	const splitMessage = message.split(" ");
+	return splitMessage[splitMessage.length - 1];
+}
+
 const getUsernamesAndOutMessage = (message: string) => {
 	const prefix = message.split(" ")[0];
 	const outMessage = message.replace(prefix, "");
@@ -33,6 +38,21 @@ export const subCommand = async (client: Client, args: CommandArgs) => {
 	} else {
 		await client.say(channel, `${outMessage} thank you for that sub - you're the bees knees! ${SeasideEmotes.Cool}`);
 	}
+}
+
+export const giftSubCommand = async (client: Client, args: CommandArgs) => {
+	const { channel, self, message } = args;
+
+	if (self) return;
+
+	const { usernames } = getUsernamesAndOutMessage(message);
+
+	if (!usernames) {
+		await client.say(channel, `Thank you for that gift sub/those gift subs - you're the duck's beak! ${SeasideEmotes.Love} ${SeasideEmotes.Cool}`);
+		return
+	}
+
+	await client.say(channel, `${usernames} Thank you for that gift sub/those gift subs - you're the duck's beak! ${SeasideEmotes.Love} ${SeasideEmotes.Cool}`);
 }
 
 export const bitsCommand = async (client: Client, args: CommandArgs) => {

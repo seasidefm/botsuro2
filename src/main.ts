@@ -48,6 +48,10 @@ async function main() {
 
 	logger.log(`${emoji.success} Connected to Twitch!`);
 
+	// TODO: add a handler for gift subs + anonymous subs
+	// Listen for gifted subscriptions:
+	// client.on("giftedsubscription", async (channel, username, streakMonths, recipient, methods, userstate) => {
+
 	// Listen for messages:
 	client.on(
 		"message",
@@ -85,6 +89,14 @@ async function main() {
 						);
 
 						await commands.bitsCommand(client, { channel, tags, message, self });
+						break;
+
+					case commands.Commands.GiftSubThanks:
+						logger.log(
+							`${channel} - gift sub thanks called by ${tags["display-name"]}`
+						);
+
+						await commands.giftSubCommand(client, { channel, tags, message, self });
 						break;
 
 					case commands.Commands.Ping:

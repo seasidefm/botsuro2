@@ -16,6 +16,7 @@ export enum Commands {
 
 	SubThanks = "?sub",
 	BitThanks = "?bits",
+	GiftSubThanks = "?giftsub",
 
 	// Temp
 	Ping = "?ping",
@@ -37,6 +38,8 @@ export const commandMatcher = (message: string) => {
 			return Commands.SubThanks;
 		case Commands.BitThanks:
 			return Commands.BitThanks;
+		case Commands.GiftSubThanks:
+			return Commands.GiftSubThanks;
 		case Commands.Ping:
 			return Commands.Ping;
 		case Commands.TranslationHelp:
