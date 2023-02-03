@@ -5,10 +5,8 @@ export const matchPingPongCommand = (message: string) => {
 }
 
 export const pingPongCommand = async (client: Client, args: CommandArgs) => {
-	const { channel, self, message } = args;
+	const { channel, self } = args;
 	if (self) return;
 
-	if (matchPingPongCommand(message)) {
-		await client.say(channel, `@${args.tags.username} pong!`);
-	}
+	await client.say(channel, `@${args.tags.username} pong!`);
 }

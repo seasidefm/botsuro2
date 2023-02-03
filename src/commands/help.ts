@@ -9,10 +9,6 @@ Commands:
 ?translate - Displays the translation help message
 `;
 
-export const matchHelpCommand = (message: string) => {
-	return message.toLowerCase().startsWith("?help");
-};
-
 export const helpCommand = async (client: Client, args: CommandArgs) => {
 	const { channel, self } = args;
 	if (self) return;

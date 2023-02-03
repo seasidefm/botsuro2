@@ -75,8 +75,6 @@ export const translateTextCommand = async (client: Client, args: CommandArgs) =>
 
 		const translation = await getDeeplTranslation(prefix!.replace("?", ""), message);
 
-		logger.log(`Translating: ${message} to ${prefix}`);
-
 		await client.say(channel, `@${args.tags.username} says: ${translation}`)
 	} catch (error) {
 		await client.say(channel, `@${args.tags.username} sorry! Got an error translating your message.`)
