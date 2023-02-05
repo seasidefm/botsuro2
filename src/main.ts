@@ -99,6 +99,14 @@ async function main() {
 						await commands.giftSubCommand(client, { channel, tags, message, self });
 						break;
 
+					case commands.Commands.DuckJoke:
+						logger.log(
+							`${channel} - duck joke called by ${tags["display-name"]}`
+						);
+
+						await commands.duckJokeCommand(client, { channel, tags, message, self });
+						break;
+
 					case commands.Commands.Ping:
 						logger.log(
 							`${channel} - ?ping called by ${tags["display-name"]}`
