@@ -1,5 +1,5 @@
 export class Timers {
-	private readonly defaultTimeout: number = 60_000 * 5; // 5 minutes
+	private readonly defaultTimeout: number = 30_000
 	private readonly timers: Map<string, number> = new Map();
 
 	constructor(defaultTimeout?: number) {
