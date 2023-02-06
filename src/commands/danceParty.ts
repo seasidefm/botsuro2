@@ -31,7 +31,7 @@ export const dancePartyCommand = async (client: Client, args: CommandArgs) => {
 			dancePartyActive = false;
 			await client.say(
 				channel,
-				`@${tags.username}, ended dance party early!`
+				`@${tags.username}, ended the dance party early!`
 			);
 			return;
 		}
@@ -84,7 +84,7 @@ export const dancePartyCommand = async (client: Client, args: CommandArgs) => {
 		await sleep(500);
 		await client.say(
 			channel,
-			`Nice moves everyone! Until next dance party! seasid3IsForLove`
+			`Nice moves everyone! Until the next dance party! seasid3IsForLove`
 		);
 	}, duration * 1000);
 };
