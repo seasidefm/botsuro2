@@ -9,7 +9,7 @@ module.exports = {
 		production: {
 			user: "duke_ferdinand",
 			host: "192.168.1.37",
-			ref: "origin/master",
+			ref: "origin/main",
 			repo: "git@github.com:seasidefm/botsuro2.git",
 			path: "/home/duke_ferdinand/botsuro",
 			"pre-deploy-local": "",
