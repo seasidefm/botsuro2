@@ -15,6 +15,10 @@ const emoji = {
 
 const logger = getLogger();
 
+const isModerator = (tags: tmi.ChatUserstate) => {
+	return tags.mod || tags["user-type"] === "mod";
+};
+
 async function main() {
 	logger.log(`${emoji.loading} Starting bot...`);
 
@@ -134,6 +138,10 @@ async function main() {
 					logger.log(
 						`${channel} - dance party called by ${tags["display-name"]}`
 					);
+
+					if (!isModerator(tags)) {
+						return;
+					}
 
 					await commands.dancePartyCommand(client, {
 						channel,
