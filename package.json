@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --exec \"tsc && node dist/main.js\"",
     "start": "node dist/main.js",
-    "build": "tsc",
+    "build": "npx tsc",
     "deploy": "pm2 deploy ecosystem.config.js production"
   },
   "keywords": [],
