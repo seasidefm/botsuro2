@@ -177,7 +177,7 @@ export const duckJokeCommand = async (client: Client, args: CommandArgs) => {
 
 		const randomPunchlineEmote =
 			punchlineEmotes[
-				Math.floor(Math.random() * punchlineEmotes.length + 1)
+				Math.floor(Math.random() * (punchlineEmotes.length - 1))
 			];
 
 		// Step 2, send the joke answer
