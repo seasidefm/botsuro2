@@ -13,11 +13,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "@types/node": "^18.11.19",
     "@types/tmi.js": "^1.8.2",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.3",
     "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "tmi.js": "^1.8.5"
   }
 }
