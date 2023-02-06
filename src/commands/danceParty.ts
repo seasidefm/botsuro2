@@ -16,26 +16,20 @@ const getLastArgumentFromMessage = (message: string) => {
 	return splitMessage[splitMessage.length - 1];
 };
 
-let dancePartyActive = false;
 let dancePartyTimeout: NodeJS.Timeout;
 
 export const dancePartyCommand = async (client: Client, args: CommandArgs) => {
 	const { channel, self, message, tags } = args;
 	if (self) return;
 
-	if (dancePartyActive) {
-		const arg = getLastArgumentFromMessage(message);
-		if (arg === "stop") {
-			await setEmoteOnly(false);
-			clearTimeout(dancePartyTimeout);
-			dancePartyActive = false;
-			await client.say(
-				channel,
-				`@${tags.username}, ended the dance party early!`
-			);
-			return;
-		}
-
+	const arg = getLastArgumentFromMessage(message);
+	if (arg === "stop") {
+		await setEmoteOnly(false);
+		clearTimeout(dancePartyTimeout);
+		await client.say(
+			channel,
+			`@${tags.username}, ended the dance party early!`
+		);
 		return;
 	}
 
@@ -64,7 +58,6 @@ export const dancePartyCommand = async (client: Client, args: CommandArgs) => {
 	await sleep(500);
 	await client.say(channel, `LET'S JAM!`);
 
-	dancePartyActive = true;
 	await setEmoteOnly(true);
 
 	// step 2, dance party
