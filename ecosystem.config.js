@@ -12,8 +12,9 @@ module.exports = {
 			ref: "origin/main",
 			repo: "git@github.com:seasidefm/botsuro2.git",
 			path: "/home/duke_ferdinand/botsuro",
+			"pre-deploy": "npm install && npm run build",
 			"post-deploy":
-				"PATH=~/.npm-global/bin:$PATH npm install && npm run build && pm2 reload ecosystem.config.js --env production",
+				"PATH=~/.npm-global/bin:$PATH npx pm2 reload ecosystem.config.js --env production",
 			"pre-setup": "",
 			env: {
 				NODE_ENV: "production",
