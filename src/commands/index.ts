@@ -1,6 +1,7 @@
 import { matchTranslationCommand } from "./translate";
 
 export * from "./help";
+export * from "./discord";
 export * from "./uptime";
 export * from "./pingPong";
 export * from "./translate";
@@ -15,6 +16,7 @@ export const startsWith = (message: string) => {
 
 export enum Commands {
 	Help = "?help",
+	Discord = "?discord",
 
 	SubThanks = "?sub",
 	BitThanks = "?bits",
@@ -41,6 +43,8 @@ export const commandMatcher = (message: string) => {
 		// Help
 		case Commands.Help:
 			return Commands.Help;
+		case Commands.Discord:
+			return Commands.Discord;
 
 		// Subs and Bits
 		case Commands.SubThanks:

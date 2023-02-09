@@ -82,6 +82,12 @@ async function main() {
 					});
 					break;
 
+				case commands.Commands.Discord:
+					logger.log(
+						`${channel} - ?discord called by ${tags["display-name"]}`
+					);
+					break;
+
 				case commands.Commands.SubThanks:
 					logger.log(
 						`${channel} - sub thanks called by ${tags["display-name"]}`
