@@ -86,6 +86,14 @@ async function main() {
 					logger.log(
 						`${channel} - ?discord called by ${tags["display-name"]}`
 					);
+
+					await commands.discordCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+
 					break;
 
 				case commands.Commands.SubThanks:
