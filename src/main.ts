@@ -165,6 +165,15 @@ async function main() {
 					});
 					break;
 
+				case commands.Commands.Kanpai:
+					await commands.kanpaiCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+					break;
+
 				case commands.Commands.Ping:
 					logger.log(
 						`${channel} - ?ping called by ${tags["display-name"]}`
