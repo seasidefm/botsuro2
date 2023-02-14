@@ -211,9 +211,7 @@ async function main() {
 	});
 }
 
-main()
-	.then(() => logger.log("Shutdown gracefully!"))
-	.catch((error) => {
-		logger.error(error);
-		process.exit(1);
-	});
+main().catch((error) => {
+	logger.error(error);
+	process.exit(1);
+});
