@@ -176,6 +176,24 @@ async function main() {
 					});
 					break;
 
+				case commands.Commands.ModSquad:
+					logger.log(
+						`${channel} - ?modsquad called by ${tags["display-name"]}`
+					);
+
+					if (!isModerator(tags)) {
+						return;
+					}
+
+					await commands.modSquad(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+
+					break;
+
 				case commands.Commands.Chill:
 					logger.log(
 						`${channel} - chill called by ${tags["display-name"]}`

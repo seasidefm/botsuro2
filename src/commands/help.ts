@@ -4,7 +4,8 @@ export const helpMessage = `
 Commands: 
 ?help - displays this message |
 ?translate - show the translation help message |
-?duckjoke - get a great duck joke
+?duckjoke - get a great duck joke |
+?kanpai - cheers!
 `;
 
 export const helpCommand = async (client: Client, args: CommandArgs) => {
