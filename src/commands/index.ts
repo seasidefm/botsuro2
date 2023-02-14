@@ -9,6 +9,7 @@ export * from "./subAndBits";
 export * from "./duckJoke";
 export * from "./danceParty";
 export * from "./kanpai";
+export * from "./chill";
 
 // get the word up to the first space
 export const startsWith = (message: string) => {
@@ -23,9 +24,12 @@ export enum Commands {
 	BitThanks = "?bits",
 	GiftSubThanks = "?giftsub",
 
+	// Moderation
+	DanceParty = "?danceparty",
+	Chill = "?chill",
+
 	// Fun
 	DuckJoke = "?duckjoke",
-	DanceParty = "?danceparty",
 	Kanpai = "?kanpai",
 
 	// Temp
@@ -59,10 +63,14 @@ export const commandMatcher = (message: string) => {
 		// Fun
 		case Commands.DuckJoke:
 			return Commands.DuckJoke;
-		case Commands.DanceParty:
-			return Commands.DanceParty;
 		case Commands.Kanpai:
 			return Commands.Kanpai;
+
+		// Moderation
+		case Commands.DanceParty:
+			return Commands.DanceParty;
+		case Commands.Chill:
+			return Commands.Chill;
 
 		// Subs and Bits
 		case Commands.Ping:

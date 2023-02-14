@@ -148,6 +148,17 @@ async function main() {
 					});
 					break;
 
+				case commands.Commands.Kanpai:
+					await commands.kanpaiCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+					break;
+
+				// mod only commands
+
 				case commands.Commands.DanceParty:
 					logger.log(
 						`${channel} - dance party called by ${tags["display-name"]}`
@@ -165,8 +176,16 @@ async function main() {
 					});
 					break;
 
-				case commands.Commands.Kanpai:
-					await commands.kanpaiCommand(client, {
+				case commands.Commands.Chill:
+					logger.log(
+						`${channel} - chill called by ${tags["display-name"]}`
+					);
+
+					if (!isModerator(tags)) {
+						return;
+					}
+
+					await commands.chillCommand(client, {
 						channel,
 						tags,
 						message,
