@@ -1,3 +1,5 @@
+import fetch from "cross-fetch";
+
 export async function getActiveMods() {
 	const baseURl =
 		"https://api.twitch.tv/helix/chat/chatters?broadcaster_id=577838946&moderator_id=744061580";

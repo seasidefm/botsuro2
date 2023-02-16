@@ -1,3 +1,5 @@
+import fetch from "cross-fetch";
+
 export async function setSlowMode(state: boolean, duration: number = 3) {
 	const baseURl =
 		"https://api.twitch.tv/helix/chat/settings?broadcaster_id=577838946&moderator_id=744061580";

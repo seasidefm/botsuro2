@@ -96,6 +96,20 @@ async function main() {
 
 					break;
 
+				// auto generated stuff
+				case commands.Commands.Song:
+					logger.log(
+						`${channel} - ?song called by ${tags["display-name"]}`
+					);
+
+					await commands.songCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+					break;
+
 				case commands.Commands.SubThanks:
 					logger.log(
 						`${channel} - sub thanks called by ${tags["display-name"]}`

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec \"tsc && node dist/main.js\"",
+    "dev": "nodemon --exec \"tsc && node --experimental-wasm-threads dist/main.js\"",
     "start": "node dist/main.js",
     "build": "tsc",
     "deploy": "pm2 deploy ecosystem.config.js production"
@@ -14,13 +14,21 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@ffmpeg/types": "^0.12.0-alpha.0",
     "@types/node": "^18.11.19",
+    "@types/node-fetch": "^2.6.2",
     "@types/tmi.js": "^1.8.2",
     "nodemon": "^2.0.20",
     "prettier": "^2.8.3",
     "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "tmi.js": "^1.8.5"
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
+    "cross-fetch": "^3.1.5",
+    "m3u8-parser": "^6.0.0",
+    "node-fetch": "^3.3.0",
+    "tmi.js": "^1.8.5",
+    "twitch-get-stream": "^0.6.0"
   }
 }
