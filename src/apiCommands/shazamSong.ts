@@ -1,26 +1,29 @@
 import fetch from "cross-fetch";
 
-const options = {
-	method: "GET",
-	url: "https://shazam.p.rapidapi.com/shazam-events/list",
-	params: {
-		artistId: "73406786",
-		l: "en-US",
-		from: "2022-12-31",
-		limit: "50",
-		offset: "0",
-	},
-	headers: {
-		"X-RapidAPI-Key": process.env.RAPID_API_KEY,
-		"X-RapidAPI-Host": "shazam.p.rapidapi.com",
-	},
-};
+import { ShazamApi } from "../types/shazamApi";
+import RootObject = ShazamApi.RootObject;
 
-export async function getShazamSong() {
-	const result = await fetch(options.url, {
-		method: options.method,
-		// headers: options.headers,
-	});
+export async function getShazamSong(
+	song: Buffer
+): Promise<RootObject | undefined> {
+	// base64 encode the song
+	const base64Song = song.toString("base64");
 
-	return result.json();
+	const url =
+		"https://shazam.p.rapidapi.com/songs/v2/detect?timezone=America%2FChicago&locale=en-US";
+
+	const options = {
+		method: "POST",
+		headers: {
+			"content-type": "text/plain",
+			"X-RapidAPI-Key":
+				process.env.RAPID_API_KEY || "RapidAPI key not set",
+			"X-RapidAPI-Host": "shazam.p.rapidapi.com",
+		},
+		body: base64Song,
+	};
+
+	return await fetch(url, options)
+		.then((res) => res.json())
+		.catch((err) => console.error("error:" + err));
 }

@@ -10,26 +10,7 @@ import { getLogger } from "../logger";
 import ffmpeg from "fluent-ffmpeg";
 import { fs } from "memfs";
 import realFs from "fs";
-
-interface Segment {
-	dateTimeString: string; // ISO 8601
-	dateTimeObject: Date;
-	duration: number;
-	uri: string;
-	timeline: number;
-}
-
-interface Playlist {
-	allowCache: boolean;
-	discontinuityStarts: [];
-	segments: Segment[];
-	version: number;
-	targetDuration: number;
-	mediaSequence: number;
-	dateTimeString: string; // ISO 8601
-	dateTimeObject: Date;
-	discontinuitySequence: number;
-}
+import { getShazamSong } from "../apiCommands/shazamSong";
 
 interface Manifest {
 	allowCache: boolean;
@@ -117,11 +98,11 @@ async function getPcmAudioFile(creator: string): Promise<Buffer> {
 	const file = fs.createWriteStream(`/${fileName}`);
 	command
 		.setDuration(4)
-		// .audioCodec("pcm_s16le")
-		// .addOption("-ac", "1")
-		// .audioFrequency(48000)
-		// .format("wav")
-		.format("mp3")
+		.audioCodec("pcm_s16le")
+		.addOption("-ac", "1")
+		.audioFrequency(44100)
+		.format("wav")
+		// .format("mp3")
 		.pipe(file, { end: true });
 
 	logger.log("Running ffmpeg command (this may take a while)");
@@ -137,6 +118,7 @@ async function getPcmAudioFile(creator: string): Promise<Buffer> {
 			const data = fs.readFileSync(`/${fileName}`);
 
 			// TODO: Remove this when debugging is done
+			if (realFs.existsSync(fileName)) realFs.rmSync(fileName);
 			realFs.writeFileSync(fileName, data);
 
 			resolve(data as Buffer);
@@ -155,16 +137,25 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 
 		await client.say(
 			channel,
-			`@${args.tags.username} thinking! this will take a few seconds...`
+			`identifying! this will take a few seconds...`
 		);
 
 		logger.log("Getting audio for channel: " + channelOverride);
 		const data = await getPcmAudioFile(channelOverride);
 
 		logger.log("Got audio data, sending to API for identification");
-		// ... add here
+		const result = await getShazamSong(data);
 
-		await client.say(channel, `@${args.tags.username} done!`);
+		logger.log("Handling API response");
+		if (result?.track) {
+			const song = result.track;
+			await client.say(
+				channel,
+				`song is ${song.title} by ${song.subtitle}`
+			);
+		} else {
+			await client.say(channel, `sorry, I couldn't find the song.`);
+		}
 	} catch (e) {
 		console.error(e);
 		await client.say(

@@ -2,6 +2,10 @@ import tmi from "tmi.js";
 import * as commands from "./commands";
 import { getLogger } from "./logger";
 
+import { config } from "dotenv";
+
+config();
+
 // Emoji
 const emoji = {
 	success: "✅",
