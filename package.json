@@ -15,6 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@ffmpeg/types": "^0.12.0-alpha.0",
+    "@types/fluent-ffmpeg": "^2.1.20",
     "@types/node": "^18.11.19",
     "@types/node-fetch": "^2.6.2",
     "@types/tmi.js": "^1.8.2",
@@ -26,9 +27,13 @@
     "@ffmpeg/core": "^0.11.0",
     "@ffmpeg/ffmpeg": "^0.11.6",
     "cross-fetch": "^3.1.5",
+    "fluent-ffmpeg": "^2.1.2",
     "m3u8-parser": "^6.0.0",
+    "m3u8stream": "^0.8.6",
+    "memfs": "^3.4.13",
     "node-fetch": "^3.3.0",
     "tmi.js": "^1.8.5",
-    "twitch-get-stream": "^0.6.0"
+    "twitch-get-stream": "^0.6.0",
+    "twitch-m3u8": "^1.1.5"
   }
 }
