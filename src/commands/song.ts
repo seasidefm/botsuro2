@@ -9,7 +9,6 @@ import { getLogger } from "../logger";
 
 import ffmpeg from "fluent-ffmpeg";
 import { fs } from "memfs";
-import realFs from "fs";
 import { getAuddId } from "../apiCommands/shazamSong";
 
 interface Manifest {
@@ -91,7 +90,7 @@ async function getPcmAudioFile(creator: string): Promise<Buffer> {
 	});
 
 	// FFMPEG using in memory file system
-	const fileName = `${creator}.raw`;
+	const fileName = `${creator}.mp3`;
 	const file = fs.createWriteStream(`/${fileName}`);
 	command.format("mp3").output(file, { end: true });
 
@@ -106,10 +105,6 @@ async function getPcmAudioFile(creator: string): Promise<Buffer> {
 		command.on("end", () => {
 			logger.log("DONE. Getting file data from memfs");
 			const data = fs.readFileSync(`/${fileName}`);
-
-			// TODO: Remove this when debugging is done
-			if (realFs.existsSync(fileName)) realFs.rmSync(fileName);
-			realFs.writeFileSync(fileName, data);
 
 			resolve(data as Buffer);
 		});
