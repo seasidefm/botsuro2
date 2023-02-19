@@ -9,7 +9,7 @@ import { getLogger } from "../logger";
 
 import ffmpeg from "fluent-ffmpeg";
 import { fs } from "memfs";
-import { getAuddId } from "../apiCommands/shazamSong";
+import { getAuddId, getShazamSong } from "../apiCommands/shazamSong";
 
 interface Manifest {
 	allowCache: boolean;
@@ -92,7 +92,11 @@ async function getPcmAudioFile(creator: string): Promise<Buffer> {
 	// FFMPEG using in memory file system
 	const fileName = `${creator}.mp3`;
 	const file = fs.createWriteStream(`/${fileName}`);
-	command.format("mp3").output(file, { end: true });
+	command
+		.audioCodec("pcm_s16le")
+		.audioChannels(1)
+		.format("wav")
+		.output(file, { end: true });
 
 	logger.log("Running ffmpeg command (this may take a while)");
 	return new Promise((resolve, reject) => {
@@ -129,17 +133,20 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 		const data = await getPcmAudioFile(channelOverride);
 
 		logger.log("Got audio data, sending to API for identification");
-		const auddId = await getAuddId(data);
-		// const result = await getShazamSong(data);
+		// const auddId = await getAuddId(data);
+		const result = await getShazamSong(data);
+
+		console.log(result);
 
 		logger.log("Handling API response");
-		if (auddId) {
+		if (result?.matches && result.track) {
+			const song = result.track;
 			await client.say(
 				channel,
-				`I think this is ${auddId.title} by ${auddId.artist} - ${auddId.song_link}`
+				`I think this is ${song.title} by ${song.subtitle} - ${song.share.href}`
 			);
 		} else {
-			console.error(auddId);
+			console.error(result);
 			await client.say(channel, `sorry, I couldn't find the song :(`);
 		}
 	} catch (e) {

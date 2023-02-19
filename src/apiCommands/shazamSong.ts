@@ -57,6 +57,7 @@ export async function getAuddId(song: Buffer): Promise<AuddResult | null> {
 		data: data,
 		headers: { "Content-Type": "multipart/form-data" },
 	}).then((response) => {
+		console.log(response.data);
 		return response.data.result as AuddResult | null;
 	});
 }

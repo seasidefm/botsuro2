@@ -43,7 +43,7 @@ export default async function manifestFromCreatorName(creator: string) {
 				`"--twitch-api-header=Authorization=OAuth ${process.env.WATCH_TOKEN}" ` +
 				"--twitch-disable-ads " +
 				"--twitch-low-latency " +
-				"--hls-duration 00:20 " +
+				"--hls-duration 00:05 " +
 				`--ffmpeg-audio-transcode "aac" ` +
 				"--retry-open 10 " +
 				`-r ${fileName} ` +
