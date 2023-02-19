@@ -10,7 +10,7 @@ import { getLogger } from "../logger";
 import ffmpeg from "fluent-ffmpeg";
 import { fs } from "memfs";
 import realFs from "fs";
-import { getShazamSong } from "../apiCommands/shazamSong";
+import { getAuddId } from "../apiCommands/shazamSong";
 
 interface Manifest {
 	allowCache: boolean;
@@ -93,12 +93,7 @@ async function getPcmAudioFile(creator: string): Promise<Buffer> {
 	// FFMPEG using in memory file system
 	const fileName = `${creator}.raw`;
 	const file = fs.createWriteStream(`/${fileName}`);
-	command
-		// Each of these options is what RapidAPI expects
-		.addOption("-ac", "1") // mono
-		.audioCodec("pcm_s16le") // 16-bit signed little endian
-		.format("s16le") // raw audio, no container
-		.output(file, { end: true });
+	command.format("mp3").output(file, { end: true });
 
 	logger.log("Running ffmpeg command (this may take a while)");
 	return new Promise((resolve, reject) => {
@@ -139,24 +134,24 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 		const data = await getPcmAudioFile(channelOverride);
 
 		logger.log("Got audio data, sending to API for identification");
-		const result = await getShazamSong(data);
+		const auddId = await getAuddId(data);
+		// const result = await getShazamSong(data);
 
 		logger.log("Handling API response");
-		if (result?.track) {
-			const song = result.track;
+		if (auddId) {
 			await client.say(
 				channel,
-				`song is ${song.title} by ${song.subtitle}`
+				`I think this is ${auddId.title} by ${auddId.artist} - ${auddId.song_link}`
 			);
 		} else {
-			console.error(result);
-			await client.say(channel, `sorry, I couldn't find the song.`);
+			console.error(auddId);
+			await client.say(channel, `sorry, I couldn't find the song :(`);
 		}
 	} catch (e) {
 		console.error(e);
 		await client.say(
 			channel,
-			`@${args.tags.username} no response from stream, is it live?`
+			`@${args.tags.username} error reading from stream, is it live?`
 		);
 	}
 };
