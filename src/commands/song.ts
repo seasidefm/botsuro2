@@ -141,7 +141,7 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 
 		const m: string = auddId
 			? `I think this is ${auddId.title} by ${auddId.artist} - ${auddId.song_link}`
-			: result
+			: result?.track
 			? `I think this is ${result.track.title} by ${result.track.subtitle} - ${result.track.share.href}`
 			: `sorry, I couldn't find the song :(`;
 
