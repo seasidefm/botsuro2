@@ -4,7 +4,7 @@ import { Buffer } from "buffer";
 // @ts-ignore
 import { Parser } from "m3u8-parser";
 
-import manifestUrlFromCreatorName from "../ffmpeg/getVideoFromManifest";
+import getStreamSegmentFile from "../ffmpeg/getVideoFromManifest";
 import { getLogger } from "../logger";
 
 import ffmpeg from "fluent-ffmpeg";
@@ -82,28 +82,23 @@ interface Manifest {
 const logger = getLogger();
 
 async function getPcmAudioFile(creator: string): Promise<Buffer> {
-	const fileName = `${creator}.mp3`;
+	logger.log(`Saving stream segment ${creator}`);
+	const streamSegment = await getStreamSegmentFile(creator);
 
-	logger.log(`Getting manifest for ${creator}`);
-	const manifestUrl = await manifestUrlFromCreatorName(creator);
-
-	if (!manifestUrl) throw new Error("No manifest URL found");
-
-	logger.log(`Got manifest URL`);
-
+	logger.log(`Saved stream segment to ${streamSegment}`);
 	const command = ffmpeg({
-		source: manifestUrl,
+		source: streamSegment,
 	});
 
+	// FFMPEG using in memory file system
+	const fileName = `${creator}.raw`;
 	const file = fs.createWriteStream(`/${fileName}`);
 	command
-		.setDuration(4)
-		.audioCodec("pcm_s16le")
-		.addOption("-ac", "1")
-		.audioFrequency(44100)
-		.format("wav")
-		// .format("mp3")
-		.pipe(file, { end: true });
+		// Each of these options is what RapidAPI expects
+		.addOption("-ac", "1") // mono
+		.audioCodec("pcm_s16le") // 16-bit signed little endian
+		.format("s16le") // raw audio, no container
+		.output(file, { end: true });
 
 	logger.log("Running ffmpeg command (this may take a while)");
 	return new Promise((resolve, reject) => {
@@ -154,6 +149,7 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 				`song is ${song.title} by ${song.subtitle}`
 			);
 		} else {
+			console.error(result);
 			await client.say(channel, `sorry, I couldn't find the song.`);
 		}
 	} catch (e) {
