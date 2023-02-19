@@ -133,22 +133,20 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 		const data = await getPcmAudioFile(channelOverride);
 
 		logger.log("Got audio data, sending to API for identification");
-		// const auddId = await getAuddId(data);
+		const auddId = await getAuddId(data);
 		const result = await getShazamSong(data);
 
+		console.log(auddId);
 		console.log(result);
 
+		const m: string = auddId
+			? `I think this is ${auddId.title} by ${auddId.artist} - ${auddId.song_link}`
+			: result
+			? `I think this is ${result.track.title} by ${result.track.subtitle} - ${result.track.share.href}`
+			: `sorry, I couldn't find the song :(`;
+
 		logger.log("Handling API response");
-		if (result?.matches && result.track) {
-			const song = result.track;
-			await client.say(
-				channel,
-				`I think this is ${song.title} by ${song.subtitle} - ${song.share.href}`
-			);
-		} else {
-			console.error(result);
-			await client.say(channel, `sorry, I couldn't find the song :(`);
-		}
+		await client.say(channel, m);
 	} catch (e) {
 		console.error(e);
 		await client.say(
