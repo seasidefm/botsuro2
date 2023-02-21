@@ -13,6 +13,7 @@ export * from "./chill";
 export * from "./modSquad";
 export * from "./song";
 export * from "./hey";
+export * from "./shoutouts";
 
 // get the word up to the first space
 export const startsWith = (message: string) => {
@@ -23,10 +24,14 @@ export enum Commands {
 	Help = "?help",
 	Discord = "?discord",
 	ModSquad = "?modsquad",
-	Hey = "?hey",
 
 	// auto generated
 	Song = "?song",
+
+	// Shoutouts
+	Hey = "?hey",
+	So = "?so",
+	DJ = "?dj",
 
 	SubThanks = "?sub",
 	BitThanks = "?bits",
@@ -61,8 +66,6 @@ export const commandMatcher = (message: string) => {
 			return Commands.Discord;
 		case Commands.ModSquad:
 			return Commands.ModSquad;
-		case Commands.Hey:
-			return Commands.Hey;
 
 		// auto generated
 		case Commands.Song:
@@ -75,6 +78,14 @@ export const commandMatcher = (message: string) => {
 			return Commands.BitThanks;
 		case Commands.GiftSubThanks:
 			return Commands.GiftSubThanks;
+
+		// Shoutouts
+		case Commands.Hey:
+			return Commands.Hey;
+		case Commands.So:
+			return Commands.So;
+		case Commands.DJ:
+			return Commands.DJ;
 
 		// Fun
 		case Commands.DuckJoke:

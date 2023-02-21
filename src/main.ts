@@ -21,8 +21,12 @@ const emoji = {
 
 const logger = getLogger();
 
-const isModerator = (tags: tmi.ChatUserstate) => {
-	return tags.mod || tags["user-type"] === "mod";
+const isModerator = (channel: string, tags: tmi.ChatUserstate) => {
+	return (
+		tags.mod ||
+		tags["user-type"] === "mod" ||
+		tags["username"] === channel.replace("#", "")
+	);
 };
 
 async function main() {
@@ -102,6 +106,8 @@ async function main() {
 
 					break;
 
+				// Shoutouts
+
 				case commands.Commands.Hey:
 					logger.log(
 						`${channel} - ?hey called by ${tags["display-name"]}`
@@ -114,6 +120,40 @@ async function main() {
 						self,
 					});
 
+					break;
+
+				case commands.Commands.So:
+					logger.log(
+						`${channel} - ?so called by ${tags["display-name"]}`
+					);
+
+					if (!isModerator(channel, tags)) {
+						return;
+					}
+
+					await commands.soCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+					break;
+
+				case commands.Commands.DJ:
+					logger.log(
+						`${channel} - ?dj called by ${tags["display-name"]}`
+					);
+
+					if (!isModerator(channel, tags)) {
+						return;
+					}
+
+					await commands.djCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
 					break;
 
 				// auto generated stuff
@@ -198,7 +238,7 @@ async function main() {
 						`${channel} - dance party called by ${tags["display-name"]}`
 					);
 
-					if (!isModerator(tags)) {
+					if (!isModerator(channel, tags)) {
 						return;
 					}
 
@@ -215,7 +255,7 @@ async function main() {
 						`${channel} - ?modsquad called by ${tags["display-name"]}`
 					);
 
-					if (!isModerator(tags)) {
+					if (!isModerator(channel, tags)) {
 						return;
 					}
 
@@ -233,7 +273,7 @@ async function main() {
 						`${channel} - chill called by ${tags["display-name"]}`
 					);
 
-					if (!isModerator(tags)) {
+					if (!isModerator(channel, tags)) {
 						return;
 					}
 
