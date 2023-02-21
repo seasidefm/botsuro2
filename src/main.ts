@@ -102,6 +102,20 @@ async function main() {
 
 					break;
 
+				case commands.Commands.Hey:
+					logger.log(
+						`${channel} - ?hey called by ${tags["display-name"]}`
+					);
+
+					await commands.heyCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+
+					break;
+
 				// auto generated stuff
 				case commands.Commands.Song:
 					logger.log(

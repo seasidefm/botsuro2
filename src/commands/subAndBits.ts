@@ -1,5 +1,6 @@
 import { Client, CommandArgs } from "./shared";
 import { SeasideEmotes } from "../emotes/seaside";
+import { findUsernames } from "../utils/findUsernames";
 
 const getUsernamesAndOutMessage = (message: string) => {
 	const prefix = message.split(" ")[0];
@@ -9,11 +10,6 @@ const getUsernamesAndOutMessage = (message: string) => {
 		usernames: findUsernames(outMessage),
 		outMessage,
 	};
-};
-
-const findUsernames = (message: string) => {
-	const regex = /@([a-zA-Z0-9_]+)/g;
-	return message.match(regex);
 };
 
 export const subCommand = async (client: Client, args: CommandArgs) => {
