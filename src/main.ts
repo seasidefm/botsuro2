@@ -209,6 +209,19 @@ async function main() {
 					});
 					break;
 
+				case commands.Commands.Resub:
+					logger.log(
+						`${channel} - resub called by ${tags["display-name"]}`
+					);
+
+					await commands.resubCommand(client, {
+						channel,
+						tags,
+						message,
+						self,
+					});
+					break;
+
 				case commands.Commands.DuckJoke:
 					logger.log(
 						`${channel} - duck joke called by ${tags["display-name"]}`

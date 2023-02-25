@@ -29,7 +29,7 @@ export const djCommand = async (client: Client, args: CommandArgs) => {
 	const { channel, self, message } = args;
 	if (self) return;
 
-	// get first non command in message
+	// get first non-command in message
 	const usernames = findUsernames(message);
 
 	const outMessage =
