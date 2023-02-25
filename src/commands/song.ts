@@ -1,7 +1,7 @@
 import { Client, CommandArgs } from "./shared";
 
 import { getLogger } from "../logger";
-import { getShazamSong } from "../apiCommands/shazamSong";
+import { identifySong } from "../apiCommands/shazamSong";
 import { SeasideEmotes } from "../emotes/seaside";
 
 interface Manifest {
@@ -92,13 +92,13 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 			`Digging through my collection. One second...`
 		);
 
-		const result = await getShazamSong(channelOverride);
+		const result = await identifySong(channelOverride);
 
 		// release the lock
 		running = false;
 		logger.log("Handling API response");
 
-		if (!result?.track) {
+		if (!result) {
 			await client.say(
 				channel,
 				`Hmm, looks like I don't have this. Ask @SeasideFM about this one ${SeasideEmotes.Cool}`
@@ -106,10 +106,10 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 			return;
 		}
 
-		const { title, subtitle, share } = result.track;
+		const { song, artist, link } = result;
 		await client.say(
 			channel,
-			`I think this is ${title} by ${subtitle} | ${share.href}`
+			`I think this is ${song} by ${artist} | ${link}`
 		);
 	} catch (e) {
 		console.error(e);
