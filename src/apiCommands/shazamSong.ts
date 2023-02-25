@@ -4,17 +4,17 @@ import { ShazamApi } from "../types/shazamApi";
 import RootObject = ShazamApi.RootObject;
 
 interface SongId {
-	acr: {
+	acr?: {
 		song: string | null;
 		artist: string | null;
 		link: string | null;
 	};
-	audd: {
+	audd?: {
 		song: string | null;
 		artist: string | null;
 		link: string | null;
 	};
-	shazam: RootObject | undefined;
+	shazam?: RootObject | undefined;
 }
 
 interface Song {
@@ -33,7 +33,7 @@ export async function identifySong(creator: string): Promise<Song | null> {
 	console.log(data);
 
 	// ACRCloud
-	if (data.acr.song) {
+	if (data.acr?.song) {
 		return {
 			song: data.acr.song,
 			artist: data.acr.artist!,
@@ -42,7 +42,7 @@ export async function identifySong(creator: string): Promise<Song | null> {
 	}
 
 	// Audd.io
-	if (data.audd.song) {
+	if (data.audd?.song) {
 		return {
 			song: data.audd.song,
 			artist: data.audd.artist!,
