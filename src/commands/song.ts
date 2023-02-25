@@ -2,6 +2,7 @@ import { Client, CommandArgs } from "./shared";
 
 import { getLogger } from "../logger";
 import { getShazamSong } from "../apiCommands/shazamSong";
+import { SeasideEmotes } from "../emotes/seaside";
 
 interface Manifest {
 	allowCache: boolean;
@@ -69,9 +70,17 @@ interface Manifest {
 		}
 	];
 }
+
+let running = false;
+
 export const songCommand = async (client: Client, args: CommandArgs) => {
 	const { channel, self, message } = args;
 	if (self) return;
+
+	if (running) return;
+
+	// get a lock on the command
+	running = true;
 
 	const logger = getLogger();
 
@@ -84,12 +93,15 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 		);
 
 		const result = await getShazamSong(channelOverride);
+
+		// release the lock
+		running = false;
 		logger.log("Handling API response");
 
 		if (!result?.track) {
 			await client.say(
 				channel,
-				`Hmm, looks like I don't own this one 🤔`
+				`Hmm, looks like I don't have this. Ask @SeasideFM about this one ${SeasideEmotes.Cool}`
 			);
 			return;
 		}
@@ -105,5 +117,8 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 			channel,
 			`@Duke_Ferdinand Error reading from stream, is it live?`
 		);
+
+		// release the lock
+		running = false;
 	}
 };
