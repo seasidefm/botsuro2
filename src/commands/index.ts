@@ -14,7 +14,6 @@ export * from "./modSquad";
 export * from "./song";
 export * from "./hey";
 export * from "./shoutouts";
-export * from "./resub";
 
 // get the word up to the first space
 export const startsWith = (message: string) => {
