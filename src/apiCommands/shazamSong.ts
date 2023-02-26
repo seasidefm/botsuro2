@@ -5,12 +5,12 @@ import RootObject = ShazamApi.RootObject;
 
 interface SongId {
 	acr?: {
-		song: string | null;
+		title: string | null;
 		artist: string | null;
 		link: string | null;
 	};
 	audd?: {
-		song: string | null;
+		title: string | null;
 		artist: string | null;
 		link: string | null;
 	};
@@ -32,31 +32,35 @@ export async function identifySong(creator: string): Promise<Song | null> {
 
 	console.log(data);
 
-	// ACRCloud
-	if (data.acr?.song) {
-		return {
-			song: data.acr.song,
-			artist: data.acr.artist!,
-			link: data.acr.link!,
-		};
-	}
+	const d = {
+		song: "",
+		artist: "",
+		link: "",
+	};
 
-	// Audd.io
-	if (data.audd?.song) {
-		return {
-			song: data.audd.song,
-			artist: data.audd.artist!,
-			link: data.audd.link!,
-		};
+	// ACRCloud
+	if (data.acr?.title) {
+		d.song = d.song ? d.song : data.acr.title;
+		d.artist = d.artist ? d.artist : data.acr.artist!;
+		d.link = d.link ? d.link : data.acr.link!;
 	}
 
 	// Shazam
-	if (data.shazam) {
-		return {
-			song: data.shazam.track.title,
-			artist: data.shazam.track.subtitle,
-			link: data.shazam.track.share.href,
-		};
+	if (data.shazam?.track) {
+		d.song = d.song ? d.song : data.shazam.track.title;
+		d.artist = d.artist ? d.artist : data.shazam.track.subtitle;
+		d.link = d.link ? d.link : data.shazam.track.share.href;
+	}
+
+	// Audd.io
+	if (data.audd?.title) {
+		d.song = d.song ? d.song : data.audd.title;
+		d.artist = d.artist ? d.artist : data.audd.artist!;
+		d.link = d.link ? d.link : data.audd.link!;
+	}
+
+	if (d.song) {
+		return d;
 	}
 
 	return null;

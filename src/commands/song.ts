@@ -109,7 +109,7 @@ export const songCommand = async (client: Client, args: CommandArgs) => {
 		const { song, artist, link } = result;
 		await client.say(
 			channel,
-			`I think this is ${song} by ${artist} | ${link}`
+			`I think this is ${song} by ${artist} ${link ? "| " + link : ""}`
 		);
 	} catch (e) {
 		console.error(e);
