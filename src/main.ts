@@ -3,6 +3,8 @@ import * as commands from "./commands";
 import { getLogger } from "./logger";
 
 import { config } from "dotenv";
+import { Worker } from "worker_threads";
+import { handleDjMatch } from "./tasks/djGreet";
 
 config();
 
@@ -66,11 +68,32 @@ async function main() {
 	// Listen for gifted subscriptions:
 	// client.on("giftedsubscription", async (channel, username, streakMonths, recipient, methods, userstate) => {
 
+	// Spawn background tasks
+	const djGreetTask = new Worker("./dist/threads/djGreeterThread.js", {});
+	djGreetTask.on("message", (message) => {
+		// {
+		// 		type: "dj-match",
+		// 		channel: message.channel,
+		// 		dj: message.tags["display-name"],
+		// 	}
+
+		if (message.type === "dj-match") {
+			handleDjMatch(client, message.dj, message.args);
+		}
+	});
+
 	// Listen for messages:
 	client.on("message", async (channel, tags, message, self) => {
 		if (self) return;
 
 		try {
+			djGreetTask.postMessage({
+				channel,
+				tags,
+				message,
+				self,
+			});
+
 			if (!message.startsWith("?")) {
 				return;
 			}
