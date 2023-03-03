@@ -5,6 +5,7 @@ import { getLogger } from "./logger";
 import { config } from "dotenv";
 import { Worker } from "worker_threads";
 import { handleDjMatch } from "./tasks/djGreet";
+import { heyBotsuro } from "./apiCommands/chatGPT";
 
 config();
 
@@ -93,6 +94,15 @@ async function main() {
 				message,
 				self,
 			});
+
+			// AI chatbot
+			if (message.startsWith("hey botsuro")) {
+				const query = message.replace("hey botsuro", "");
+				const response = await heyBotsuro(query);
+
+				await client.say(channel, `${response}`);
+				return;
+			}
 
 			if (!message.startsWith("?")) {
 				return;
