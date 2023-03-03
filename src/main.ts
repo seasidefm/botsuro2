@@ -96,8 +96,8 @@ async function main() {
 			});
 
 			// AI chatbot
-			if (message.startsWith("hey botsuro")) {
-				const query = message.replace("hey botsuro", "");
+			if (message.toLowerCase().startsWith("hey botsuro")) {
+				const query = message.toLowerCase().replace("hey botsuro", "");
 				const response = await heyBotsuro(query);
 
 				await client.say(channel, `${response}`);
