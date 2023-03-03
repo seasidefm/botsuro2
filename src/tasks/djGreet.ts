@@ -1,4 +1,5 @@
 import { Client, CommandArgs } from "../commands/shared";
+import { SeasideEmotes } from "../emotes/seaside";
 
 const djList = [
 	// "SeasideFM", "MC_Clancy",
@@ -26,7 +27,7 @@ export async function handleDjMatch(
 	// send the message
 	await client.say(
 		channel,
-		"A big warm shoutout to @{channel} - follow them at twitch.tv/{channel} for more amazing music!".replaceAll(
+		`A big warm shoutout to @{channel} - follow them at twitch.tv/{channel} for more amazing music! ${SeasideEmotes.Love}`.replaceAll(
 			"{channel}",
 			dj
 		)

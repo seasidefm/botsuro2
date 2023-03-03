@@ -1,5 +1,6 @@
 import { Client, CommandArgs } from "./shared";
 import { findUsernames } from "../utils/findUsernames";
+import { saveShoutout, StreamerType } from "../db/saveShoutout";
 
 export const soCommand = async (client: Client, args: CommandArgs) => {
 	const { channel, self, message } = args;
@@ -23,6 +24,10 @@ export const soCommand = async (client: Client, args: CommandArgs) => {
 		channel,
 		outMessage.replaceAll("{channel}", usernames[0].replace("@", ""))
 	);
+
+	for (const username of usernames) {
+		await saveShoutout(username.replace("@", ""), StreamerType.NON_DJ);
+	}
 };
 
 export const djCommand = async (client: Client, args: CommandArgs) => {
@@ -48,4 +53,8 @@ export const djCommand = async (client: Client, args: CommandArgs) => {
 		channel,
 		outMessage.replaceAll("{channel}", usernames[0].replace("@", ""))
 	);
+
+	for (const username of usernames) {
+		await saveShoutout(username.replace("@", ""), StreamerType.DJ);
+	}
 };
