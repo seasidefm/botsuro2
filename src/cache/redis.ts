@@ -1,7 +1,10 @@
 import { createClient } from "redis";
 
+let client: ReturnType<typeof createClient>;
 export async function getRedisClient() {
-	const client = createClient({
+	if (client) return client;
+
+	client = createClient({
 		url: process.env.REDIS_URL!,
 	});
 
